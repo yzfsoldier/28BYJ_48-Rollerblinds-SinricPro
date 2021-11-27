@@ -36,6 +36,7 @@ bool initLoop = true, power =  false;
 String action;
 int path;
 Config config;
+
 bool onRangeValue(const String &deviceId, int &position) {
   Serial.printf("Device %s set position to %d\r\n", deviceId.c_str(), position);
   action = "auto";
@@ -139,6 +140,8 @@ void setup_ws()
   });
   server.on("/save_config", HTTP_GET, [] (AsyncWebServerRequest * request) {
     save_config();
+    Serial.print("SAVE TO SPIFFS\r\n");
+    request->send(200, "text/plain", "ok");
   });
   server.onNotFound(notFound);
   server.begin();
